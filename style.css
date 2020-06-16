@@ -1,0 +1,38 @@
+.grid{
+    display: flex;
+    flex-wrap: wrap;
+    width: 672px;
+    height: 672px;
+    border: solid black;
+
+}
+
+.grid div{
+    width: 24px;
+    height: 24px;
+}
+
+
+.dot{
+    background-color: green;
+    border: 5px solid white;
+    box-sizing: border-box;
+}
+
+.wall{
+    background-color: blue;
+}
+
+.powerup{
+    background-color: purple;
+    border-radius: 10px;
+}
+
+.pac{
+    background-image: url("./images/jake5.png");
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: contain;
+    border: none;
+
+}
