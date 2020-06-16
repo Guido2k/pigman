@@ -1,7 +1,11 @@
+body{
+    margin-left: 25vw
+
+}
 .grid{
     display: flex;
     flex-wrap: wrap;
-    width: 672px;
+    width: 696px;
     height: 672px;
     border: solid black;
 
@@ -14,13 +18,13 @@
 
 
 .dot{
-    background-color: green;
-    border: 5px solid white;
+    background-color: blue;
+    border: 7px solid white;
     box-sizing: border-box;
 }
 
 .wall{
-    background-color: blue;
+    background-color: black;
 }
 
 .powerup{
