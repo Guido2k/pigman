@@ -33,10 +33,14 @@ body{
 }
 
 .pac{
-    background-image: url("./images/jake5.png");
+    background-image: url("./images/pigman.png");
     background-repeat: no-repeat;
     background-color: white;
     background-size: contain;
     border: none;
 
+}
+
+.lair{
+    background-color: rgba(25,25,25, 0.4)
 }

@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 1,1,1,1,0,0,0,0,0,4,1,1,1,2,2,2,1,1,1,4,0,0,0,0,0,1,1,1,1,
 1,1,1,1,0,1,1,1,1,4,1,2,2,2,2,2,2,2,1,4,1,1,1,1,0,1,1,1,1,
 1,1,1,1,0,1,1,1,1,4,1,2,2,2,2,2,2,2,1,4,1,1,1,1,0,1,1,1,1,
-1,0,0,0,0,0,0,0,0,4,1,2,2,2,2,2,2,2,1,4,0,0,0,0,0,0,0,0,1,
+0,0,0,0,0,0,0,0,0,4,1,2,2,2,2,2,2,2,1,4,0,0,0,0,0,0,0,0,0,
 1,0,1,1,1,1,0,1,1,4,1,1,1,1,1,1,1,1,1,4,1,1,0,1,1,1,1,0,1,
 1,0,1,1,1,1,0,1,1,4,4,4,4,4,4,4,4,4,4,4,1,1,0,1,1,1,1,0,1,
 1,0,0,0,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,0,0,1,
@@ -63,6 +63,9 @@ function createBoard(){
         else if(layout[i] === 3){
             squares[i].classList.add('powerup')
         }
+        else if(layout[i] === 2){
+            squares[i].classList.add('lair')
+        }
 
     }
 
@@ -79,16 +82,32 @@ function movePac(e){
         
     switch(e.keyCode){
         case 37:
-            if(pacCurrentIndex % width !==0 && !squares[pacCurrentIndex -1].classList.contains('wall')) pacCurrentIndex -=1
+            if(pacCurrentIndex % width !==0 && !squares[pacCurrentIndex -1].classList.contains('wall') && !squares[pacCurrentIndex -1].classList.contains('lair')) pacCurrentIndex -=1
+
+            //check if pig is in the left exit
+
+            if((pacCurrentIndex -1) === 347) {
+                pacCurrentIndex = 376
+
+
+            }
+
                 break
         case 38:
-            if(pacCurrentIndex - width >= 0 && !squares[pacCurrentIndex - width].classList.contains('wall')) pacCurrentIndex -=width
+            if(pacCurrentIndex - width >= 0 && !squares[pacCurrentIndex - width].classList.contains('wall') && !squares[pacCurrentIndex -width].classList.contains('lair')) pacCurrentIndex -=width
                 break
         case 39:
-            if(pacCurrentIndex % width < width -1 && !squares[pacCurrentIndex +1].classList.contains('wall')) pacCurrentIndex +=1
+            if(pacCurrentIndex % width < width -1 && !squares[pacCurrentIndex +1].classList.contains('wall') && !squares[pacCurrentIndex +1].classList.contains('lair')) pacCurrentIndex +=1
+
+            if((pacCurrentIndex -1) === 375) {
+                pacCurrentIndex = 348
+
+
+            }
+
                 break
         case 40:
-            if(pacCurrentIndex + width < width * width && !squares[pacCurrentIndex +width].classList.contains('wall')) pacCurrentIndex +=width
+            if(pacCurrentIndex + width < width * width && !squares[pacCurrentIndex +width].classList.contains('wall') && !squares[pacCurrentIndex +width].classList.contains('lair')) pacCurrentIndex +=width
                 break            
         }
     squares[pacCurrentIndex].classList.add('pac')
