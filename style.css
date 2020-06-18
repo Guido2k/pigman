@@ -28,8 +28,11 @@ body{
 }
 
 .powerup{
-    background-color: purple;
+    background-image: url('./images/poop.png');
+    background-repeat: no-repeat;
+    background-size: contain;
     border-radius: 10px;
+    animation: blink 0.8s infinite ease-in;
 }
 
 .pac{
@@ -38,9 +41,68 @@ body{
     background-color: white;
     background-size: contain;
     border: none;
-
+    
 }
 
 .lair{
-    background-color: rgba(25,25,25, 0.4)
+    background-color: white;
+}
+
+.blinky{
+    background-color: red;
+    border: 0px;
+}
+
+.pinky{
+    background-image: url('./images/pinkyghost.png');
+    border: 0px;
+}
+
+.inky{
+    background-color: blue;
+    border: 0px;
+}
+
+.clyde{
+    background-image: url('./images/clydeghost.png');
+    border: 0px;
+}
+
+.scared-ghost{
+    background-color: aquamarine;
+    border: 0px;
+    animation: blink 0.3s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity: 0.5;
+    }
+}
+
+#score{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-left: 5px;
+}
+
+h3{
+    font-family: verdana;
+    margin-left: 20%;
+}
+
+/* corners */
+
+.cornerBL{
+    background-image: url('./images/cornerBL.png');
+    border: 0px;
+}
+
+.cornerBR{
+    background-image: url('./images/cornerBR.png');
+    border: 0px;
+}
+
+.cornerTL{
+    background-image: url('./images/cornerTL.png');
+    border: 0px;
 }
