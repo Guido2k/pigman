@@ -1,14 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
     const scoreDisplay = document.getElementById('score')
+    const msgDisplay = document.getElementById('message')
+    const livesDisplay = document.getElementById('lives')
     const width = 29 // 28 squares x 28 squares 784 (each square 24px x 24px)
     let score = 0;
+    let lives = 4;
     // layout of grid and what is in squares
 
     const layout = [
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,
-1,3,22,1,1,1,0,22,1,0,1,1,0,0,0,0,0,1,1,0,22,1,0,22,1,1,1,0,1,
+1,3,22,1,1,1,0,22,1,0,20,21,0,0,0,0,0,20,21,0,22,1,0,22,1,1,1,0,1,
 1,0,1,1,1,1,0,1,1,0,0,0,0,22,1,1,0,0,0,0,1,1,0,1,1,1,1,0,1,
 1,0,20,1,1,21,0,20,1,1,1,1,0,1,1,1,0,22,1,1,1,21,0,20,1,1,21,0,1,
 1,0,0,0,0,0,0,0,0,0,20,21,0,20,1,21,0,20,21,0,0,0,0,0,0,0,3,0,1,
@@ -91,32 +94,62 @@ function movePac(e){
         
     switch(e.keyCode){
         case 37:
-            if(pacCurrentIndex % width !==0 && !squares[pacCurrentIndex -1].classList.contains('wall') && !squares[pacCurrentIndex -1].classList.contains('lair')) pacCurrentIndex -=1
+            if(pacCurrentIndex % width !==0 
+                && !squares[pacCurrentIndex -1].classList.contains('wall') 
+                && !squares[pacCurrentIndex -1].classList.contains('lair')) 
+                
+                
+                
+                pacCurrentIndex -=1
+
+                squares[pacCurrentIndex+1].classList.remove('pigman_right')
 
             //check if pig is in the left exit
 
             if((pacCurrentIndex -1) === 347) {
                 pacCurrentIndex = 376
-
-
+                
             }
 
                 break
         case 38:
-            if(pacCurrentIndex - width >= 0 && !squares[pacCurrentIndex - width].classList.contains('wall') && !squares[pacCurrentIndex -width].classList.contains('lair')) pacCurrentIndex -=width
+            if(pacCurrentIndex - width >= 0 
+                && !squares[pacCurrentIndex - width].classList.contains('wall') 
+                && !squares[pacCurrentIndex -width].classList.contains('lair')) 
+                
+                pacCurrentIndex -=width
+
+                squares[pacCurrentIndex+width].classList.remove('pigman_right')
+                squares[pacCurrentIndex+1].classList.remove('pigman_right')
                 break
         case 39:
-            if(pacCurrentIndex % width < width -1 && !squares[pacCurrentIndex +1].classList.contains('wall') && !squares[pacCurrentIndex +1].classList.contains('lair')) pacCurrentIndex +=1
+            if(pacCurrentIndex % width < width -1 
+                && !squares[pacCurrentIndex +1].classList.contains('wall') 
+                && !squares[pacCurrentIndex +1].classList.contains('lair')) 
+                
+                
+                pacCurrentIndex +=1
+
+                squares[pacCurrentIndex].classList.add('pigman_right')
+                squares[pacCurrentIndex-1].classList.remove('pigman_right')
+                squares[pacCurrentIndex].classList.remove('pac')
 
             if((pacCurrentIndex -1) === 375) {
                 pacCurrentIndex = 348
-
+                squares[376].classList.remove('pigman_right')
 
             }
 
                 break
         case 40:
-            if(pacCurrentIndex + width < width * width && !squares[pacCurrentIndex +width].classList.contains('wall') && !squares[pacCurrentIndex +width].classList.contains('lair')) pacCurrentIndex +=width
+            if(pacCurrentIndex + width < width * width 
+                && !squares[pacCurrentIndex +width].classList.contains('wall') 
+                && !squares[pacCurrentIndex +width].classList.contains('lair')) 
+                
+                pacCurrentIndex +=width
+
+                squares[pacCurrentIndex-width].classList.remove('pigman_right')
+
                 break            
         }
     squares[pacCurrentIndex].classList.add('pac')
@@ -170,9 +203,9 @@ function movePac(e){
     }
 
     ghosts = [
-        new Ghost('blinky', 302, 122),
-        new Ghost('pinky', 303, 95),
-        new Ghost('inky', 304, 100),
+        new Ghost('blinky', 302, 200),
+        new Ghost('pinky', 303, 200),
+        new Ghost('inky', 304, 175),
         new Ghost('clyde', 305, 300)
     ]
 
@@ -225,27 +258,56 @@ function movePac(e){
             ghost.currentIndex = ghost.startIndex
             score +=100
             squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
-        }
+        }  //if ghost are not scared and pigman eats ghost
+        else if(squares[pacCurrentIndex].classList.contains('ghost') 
+        && !squares[pacCurrentIndex].classList.contains('scared-ghost')) {
+            if(lives < 0){
+                gameover()
+            }else{
+            //setTimeout(()=> {lives = lives -1}, 100);
+            squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
 
-        gameover()
+
+            ghost.currentIndex = ghost.startIndex
+            
+
+            setTimeout(()=> {lives = lives -1}, 300);
+            livesDisplay.innerHTML = lives;
+            
+            msgDisplay.innerHTML = ' YOU WERE SPOOKED';
+            
+            }
+        }
+        
+        
+
         }, ghost.speed)
     }
 
     // check for gameover
 
     function gameover(){
-        if(squares[pacCurrentIndex].classList.contains('ghost') && !squares[pacCurrentIndex].classList.contains('scared-ghost')) {
+        if(squares[pacCurrentIndex].classList.contains('ghost') 
+        && !squares[pacCurrentIndex].classList.contains('scared-ghost')
+        && lives<0) {
+            
             ghosts.forEach(ghost => clearInterval(ghost.timerId))
             document.removeEventListener('keyup', movePac)
-            scoreDisplay.innerHTML = " " + score + ' GAME OVER newb'
-        }
+            //ghost.currentIndex = ghost.startIndex
+            
+            livesDisplay.innerHTML = "X";
+            scoreDisplay.innerHTML = score
+            msgDisplay.innerHTML = ' GAME OVER NEWB!'
+            }
+        
     }
 
     function checkforwin(){
-        if(score === 275) {
+        if(score === 375) {
+            msgDislay.innerHTML = "U WIN!"
             ghosts.forEach(ghost => clearInterval(ghost.timerId))
             document.removeEventListener('keyup', movePac)
-            scoreDisplay.innerHTML = "U WIN!"
+            
         }
 
     }
