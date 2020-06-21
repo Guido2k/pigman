@@ -24,8 +24,16 @@ body{
 }
 
 .wall{
+    background-color: black;
+}
+
+.lair-wall{
     background-color: orangered;
 }
+.lair-door{
+    background-image: url('./images/lair-door.png');
+}
+
 
 .powerup{
     background-image: url('./images/poop2.png');
@@ -48,6 +56,12 @@ body{
     background-image: url("./images/pigman_right.png");
     border: none;
 }
+
+.pigman_left{
+    background-image: url("./images/pigman_left.png");
+    border: none;
+}
+
 
 .lair{
     background-color: white;
@@ -101,6 +115,26 @@ body{
 
 .cornerTL{
     background-image: url('./images/cornerTL.png');
+    border: 0px;
+}
+
+.cornerTR{
+    background-image: url('./images/cornerTR.png');
+    border: 0px;
+}
+
+.curbL{
+    background-image: url('./images/curbL.png');
+    border: 0px;
+}
+
+.curbR{
+    background-image: url('./images/curbR.png');
+    border: 0px;
+}
+
+.curbDn{
+    background-image: url('./images/curbDn.png');
     border: 0px;
 }
 
