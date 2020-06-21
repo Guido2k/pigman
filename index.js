@@ -6,7 +6,7 @@ const myAudio2 = document.createElement("audio");
 myAudio2.src = "./sounds/pig2.mp3"
 
 const myAudio3 = document.createElement("audio")
-myAudio3.src = "./sounds/theme.ogg"
+myAudio3.src = "./sounds/theme2.ogg"
 
 
 
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const width = 29 // 29 squares x 28 squares (each square 24px x 24px)
     let score = 0;
     let lives = 4;
+    
     // layout of grid and what is in squares
 
     const layout = [
