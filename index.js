@@ -6,7 +6,14 @@ const myAudio2 = document.createElement("audio");
 myAudio2.src = "./sounds/pig2.mp3"
 
 const myAudio3 = document.createElement("audio")
-myAudio3.src = "./sounds/theme2.ogg"
+myAudio3.src = "./sounds/theme.ogg"
+
+const myAudio4 = document.createElement("audio")
+myAudio4.src = "./sounds/over.mp3"
+
+const myAudio5 = document.createElement("audio")
+myAudio5.src = "./sounds/winner.mp3"
+
 
 
 
@@ -17,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const livesDisplay = document.getElementById('lives')
     const width = 29 // 29 squares x 28 squares (each square 24px x 24px)
     let score = 0;
-    let lives = 4;
+    let lives = 5;
     
     // layout of grid and what is in squares
 
@@ -77,6 +84,7 @@ function createBoard(){
         grid.appendChild(square)
         squares.push(square)
         myAudio3.play()
+        myAudio2.play()
         //add layout to the board
 
         if(layout[i] === 0){
@@ -243,6 +251,7 @@ function movePac(e){
     function dotEaten(){
         if(squares[pacCurrentIndex].classList.contains('dot')){
             score++
+            checkforwin();
             scoreDisplay.innerHTML = score
             squares[pacCurrentIndex].classList.remove('dot')
             myAudio1.play()
@@ -254,6 +263,7 @@ function movePac(e){
     function powerup(){
         if(squares[pacCurrentIndex].classList.contains('powerup')){
             score +=10
+            checkforwin();
             ghosts.forEach(ghost => ghost.isScared = true)
             setTimeout(unScareGhosts, 9000)
             squares[pacCurrentIndex].classList.remove('powerup')
@@ -347,53 +357,38 @@ function movePac(e){
             
             squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
             score +=100
+            checkforwin();
         }  
         
-        //if ghost are not scared and pigman eats ghost
+        //if ghost are not scared and pigman eats ghost 
         
         if(squares[ghost.currentIndex].classList.contains('pac')
         && squares[pacCurrentIndex].classList.contains('ghost')
-        && lives > 0
         && !squares[pacCurrentIndex].classList.contains('scared-ghost'))
         {
-            if(lives = 4){
-                lives = 3
-                livesDisplay.innerHTML = lives;
-                squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
-                ghost.currentIndex = ghost.startIndex
-            } 
-            else if( lives = 3) {
-                lives = 2
-                livesDisplay.innerHTML = lives;
-                squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
-                ghost.currentIndex = ghost.startIndex
-
-            }
-            else if(lives = 2){
-                setTimeout(()=> {lives = lives -1}, 550);
-                livesDisplay.innerHTML = lives;
-                squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
-                ghost.currentIndex = ghost.startIndex
-            }
-            else if(lives = 1){
-                lives = lives -1
-                livesDisplay.innerHTML = lives;
-                squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
-                ghost.currentIndex = ghost.startIndex
-               
-                
-
-
-            // setTimeout(()=> {lives = lives -1}, 550);
-            // livesDisplay.innerHTML = lives;
+            
+            if(lives > 0) {
+            
+            
             squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
             ghost.currentIndex = ghost.startIndex
-            msgDisplay.innerHTML = ' YOU WERE SPOOKED';
             
+            ghosts.forEach(ghost => ghost.isScared = true)
+            setTimeout(unScareGhosts, 250)    
+
+            setTimeout(wounded, 1000);
+            
+            myAudio2.play()
+            
+            msgDisplay.innerHTML = "spooked"    
+            }
+            
+        
+                   
             }else if(lives <= 0){
                 gameover()
             }
-        }
+        
         
         
 
@@ -410,22 +405,43 @@ function movePac(e){
             document.removeEventListener('keyup', movePac)
             //ghost.currentIndex = ghost.startIndex
             
-            livesDisplay.innerHTML = "BaCoN";
+            livesDisplay.innerHTML = 0;
             scoreDisplay.innerHTML = score
-            msgDisplay.innerHTML = ' GAME OVER NEWB!'
+            msgDisplay.innerHTML = ' GAME OVER'
+
+            function reset(){
+                window.open("main.html");
+
+            }
+            window.onclick = setTimeout(reset, 4400);
+
+            myAudio3.pause();
+            myAudio4.play();
             }
         
     }
 
     function checkforwin(){
-        if(score >= 400) {
-            msgDislay.innerHTML = "U WIN!"
+        if(score >= 100) {
+            msgDisplay.innerHTML = "U WIN!"
             ghosts.forEach(ghost => clearInterval(ghost.timerId))
             document.removeEventListener('keyup', movePac)
+            
+            function reset(){
+                window.open("main.html");
+            }
+            
+            window.onclick = setTimeout(reset, 5500);
+            myAudio3.pause();
+            myAudio5.play();
             
         }
 
     }
 
+    function wounded(){
+        lives--;
+        livesDisplay.innerHTML = lives;
+    }
 
 });
